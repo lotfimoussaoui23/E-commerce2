@@ -11,7 +11,7 @@ body {
 }
 
 header {
-    background: #f53f3f;
+    background: #e0bf8f;
     color: white;
     padding: 20px;
     display: flex;
@@ -318,7 +318,7 @@ main {
 
 .productSeller span {
 
-    color: #ed1c24;
+    color: #e0bf8f;
 
     font-weight: bold;
 
@@ -333,7 +333,7 @@ main {
 
     margin-bottom: 80px;
 
-    color: #ed1c24;
+    color: #e0bf8f;
 
     font-weight: bold;
 
@@ -353,7 +353,7 @@ main {
 
 .productAddButton {
 
-    background: #ed1c24;
+    background: #e0bf8f;
 
     color: white;
 
@@ -376,7 +376,7 @@ main {
 
 .productAddButton:hover {
 
-    background: #c9151c;
+    background: #b4986f;
 
     transform: translateY(-2px);
 
@@ -553,7 +553,7 @@ header {
 
 .cartProduct h3 {
 
-    color: #ed1c24;
+    color: #e0bf8f;
 
     font-size: 17px;
 
@@ -672,7 +672,7 @@ header {
 
 .customerForm {
 
-    border-left: 6px solid #ed1c24;
+    border-left: 6px solid #e0bf8f;
 
     padding-left: 25px;
 
@@ -746,7 +746,7 @@ header {
 
     border: none;
 
-    background: #ed1c24;
+    background: #e0bf8f;
 
     color: white;
 
@@ -761,7 +761,7 @@ header {
 
 .orderButton:hover {
 
-    background: #c9151c;
+    background: #b89d75;
 
 }
 
@@ -1061,7 +1061,7 @@ header {
 
 .total-ventes strong {
 
-    color: red;
+    color: brown;
 
     font-size: 36px;
 

@@ -1,37 +1,86 @@
 const express = require("express");
 const mysql = require("mysql2");
-const pool = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "ecommerce"
-});
 const cors = require("cors");
-
+const multer = require("multer");
+const path = require("path");
 const app = express();
+const fs = require("fs");
+const axios = require("axios");
+
+const imageDir = path.join(__dirname, "images");
+
+if (!fs.existsSync(imageDir)) {
+    fs.mkdirSync(imageDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+
+    destination: function (req, file, cb) {
+        cb(null, imageDir);
+    },
+
+    filename: function (req, file, cb) {
+
+        const uniqueName =
+            Date.now() +
+            "-" +
+            Math.round(Math.random() * 1E9);
+
+        cb(
+            null,
+            uniqueName + path.extname(file.originalname)
+        );
+    }
+});
+
+const upload = multer({
+    storage: storage
+});
+
+
+app.use(
+    "/images",
+    express.static(imageDir)
+);
+
+
+// ==========================
+// Middleware
+// ==========================
 
 app.use(cors());
-app.use(express.json());
 
-// Permet à Node.js de servir index.html, CSS, JS et images
+app.use(express.json());
 app.use(express.static(__dirname));
+// Permet d'accéder aux images uploadées
+app.use(
+    "/images",
+    express.static(
+        path.join(__dirname, "images")
+    )
+);
+
+
 // ==========================
 // Connexion à MySQL
 // ==========================
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "ecommerce"
+const pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
-
 
 // ==========================
 // Vérifier la connexion
 // ==========================
 
-db.connect((err) => {
+pool.getConnection((err, connection) => {
 
     if (err) {
         console.error("Erreur de connexion MySQL :", err);
@@ -39,8 +88,9 @@ db.connect((err) => {
     }
 
     console.log("Connexion à MySQL réussie !");
-});
 
+    connection.release();
+});
 
 // ==========================
 // Récupérer les produits
@@ -60,7 +110,7 @@ app.get("/api/produits", (req, res) => {
         ORDER BY id ASC
     `;
 
-    db.query(sql, (err, results) => {
+    pool.query(sql, (err, results) => {
 
         if (err) {
 
@@ -75,118 +125,278 @@ app.get("/api/produits", (req, res) => {
     });
 });
 
+// uploader les image sur GitHub
+async function uploadImageToGitHub(file) {
+
+    const repo =
+        process.env.GITHUB_REPO;
+
+    const branch =
+        process.env.GITHUB_BRANCH || "main";
+
+    const token =
+        process.env.GITHUB_TOKEN;
+
+    const filePath =
+        `images/${file.filename}`;
+
+    const fileContent =
+        fs.readFileSync(file.path);
+
+    const base64Content =
+        fileContent.toString("base64");
+
+    const url = `https://api.github.com/repos/${repo}/contents/${filePath}`;
+
+    const response =
+        await axios.put(
+            url,
+            {
+                message:
+                    `Ajout image ${file.filename}`,
+
+                content:
+                    base64Content,
+
+                branch:
+                    branch
+            },
+            {
+                headers: {
+                    Authorization:
+                        `Bearer ${token}`,
+                    Accept:
+                        "application/vnd.github+json"
+                }
+            }
+        );
+
+    return response.data.content.download_url;
+}
+
 //===========================
 // ajouter un produit
 //===========================
 
-app.post("/api/produits", (req, res) => {
+app.post(
+    "/api/produits",
+    upload.single("image"),
+    async (req, res) => {
 
-    const {
-        nom,
-        description,
-        prix,
-        image,
-        stock
-    } = req.body;
+        console.log("Fichier reçu :", req.file);
+        console.log("Données reçues :", req.body);
 
-    const sql = `
-        INSERT INTO produits
-        (nom, description, prix, image, stock)
-        VALUES (?, ?, ?, ?, ?)
-    `;
-
-    db.query(
-        sql,
-        [
+        const {
             nom,
-            description || "",
+            description,
             prix,
-            image || "",
-            stock || 0
-        ],
-        (err, result) => {
+            stock
+        } = req.body;
 
-            if (err) {
+        let image = "";
 
-                console.error(
-                    "Erreur ajout produit :",
-                    err
-                );
+if (req.file) {
+    console.log("UPLOAD GITHUB EN COURS...");
 
-                return res.status(500).json({
-                    error: err.message
+    try {
+
+        image =
+            await uploadImageToGitHub(req.file);
+            console.log("IMAGE GITHUB :", image);
+
+    } catch (error) {
+
+        console.error("========== ERREUR GITHUB ==========");
+        console.error("Message :", error.message);
+        console.error("Status :", error.response?.status);
+        console.error("Data :", error.response?.data);
+        console.error("===================================");
+
+        return res.status(500).json({
+            error: "Erreur upload image GitHub"
+        });
+    }
+}
+
+        const sql = `
+            INSERT INTO produits
+            (nom, description, prix, image, stock)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+
+        pool.query(
+            sql,
+            [
+                nom,
+                description || "",
+                prix,
+                image,
+                stock || 0
+            ],
+            (err, result) => {
+
+                if (err) {
+
+                    console.error(
+                        "Erreur ajout produit :",
+                        err
+                    );
+
+                    return res.status(500).json({
+                        error: err.message
+                    });
+                }
+
+                res.json({
+                    success: true,
+                    id: result.insertId,
+                    image: image
                 });
-            }
 
-            res.json({
-                success: true,
-                id: result.insertId
+            }
+        );
+
+    }
+);
+
+
+// ==========================
+// MODIFIER UN PRODUIT
+// ==========================
+
+app.put(
+    "/api/produits/:id",
+    upload.single("image"),
+    async (req, res) => {
+
+        const id = req.params.id;
+
+        const {
+            nom,
+            description,
+            prix,
+            stock
+        } = req.body;
+
+
+        // Si une nouvelle image est envoyée
+        if (req.file) {
+
+            try {
+
+            console.log("MODIFICATION : upload GitHub en cours...");
+
+            const image =
+                await uploadImageToGitHub(req.file);
+
+            console.log("IMAGE GITHUB :", image);
+
+            const sql = `
+                UPDATE produits
+                SET
+                    nom = ?,
+                    description = ?,
+                    prix = ?,
+                    image = ?,
+                    stock = ?
+                WHERE id = ?
+            `;
+
+            pool.query(
+                sql,
+                [
+                    nom,
+                    description || "",
+                    prix,
+                    image,
+                    stock || 0,
+                    id
+                ],
+                (err, result) => {
+
+                    if (err) {
+
+                        console.error(
+                            "Erreur modification produit :",
+                            err
+                        );
+
+                        return res.status(500).json({
+                            error: err.message
+                        });
+                    }
+
+                    res.json({
+                        success: true,
+                        image: image
+                    });
+
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "ERREUR GITHUB MODIFICATION :",
+                error.response?.data ||
+                error.message
+            );
+
+            return res.status(500).json({
+                error: "Impossible d'envoyer la nouvelle image sur GitHub"
             });
+        }
+    }
+
+        // Aucune nouvelle image
+        else {
+
+            const sql = `
+                UPDATE produits
+                SET
+                    nom = ?,
+                    description = ?,
+                    prix = ?,
+                    stock = ?
+                WHERE id = ?
+            `;
+
+
+            pool.query(
+                sql,
+                [
+                    nom,
+                    description || "",
+                    prix,
+                    stock || 0,
+                    id
+                ],
+                (err, result) => {
+
+                    if (err) {
+
+                        console.error(
+                            "Erreur modification produit :",
+                            err
+                        );
+
+                        return res.status(500).json({
+                            error: err.message
+                        });
+                    }
+
+
+                    res.json({
+                        success: true
+                    });
+
+                }
+            );
 
         }
-    );
 
-});
-
-//===========================
-// modifier un produit
-//===========================
-
-app.put("/api/produits/:id", (req, res) => {
-
-    const id = req.params.id;
-
-    const {
-        nom,
-        description,
-        prix,
-        image,
-        stock
-    } = req.body;
-
-    const sql = `
-        UPDATE produits
-        SET
-            nom = ?,
-            description = ?,
-            prix = ?,
-            image = ?,
-            stock = ?
-        WHERE id = ?
-    `;
-
-    db.query(
-        sql,
-        [
-            nom,
-            description || "",
-            prix,
-            image || "",
-            stock || 0,
-            id
-        ],
-        (err, result) => {
-
-            if (err) {
-
-                console.error(
-                    "Erreur modification produit :",
-                    err
-                );
-
-                return res.status(500).json({
-                    error: err.message
-                });
-            }
-
-            res.json({
-                success: true
-            });
-
-        }
-    );
-
-});
+    }
+);
 
 // ==========================
 // supprime un produit
@@ -201,7 +411,7 @@ app.delete("/api/produits/:id", (req, res) => {
         WHERE id = ?
     `;
 
-    db.query(
+    pool.query(
         sql,
         [id],
         (err, result) => {
@@ -281,7 +491,7 @@ app.post("/api/commandes", (req, res) => {
     `;
 
 
-    db.query(
+    pool.query(
         sqlClient,
         [
             client.prenom,
@@ -333,7 +543,7 @@ app.post("/api/commandes", (req, res) => {
             `;
 
 
-            db.query(
+            pool.query(
                 sqlProduits,
                 ids,
                 (err, productsDB) => {
@@ -399,7 +609,7 @@ app.post("/api/commandes", (req, res) => {
                     `;
 
 
-                    db.query(
+                    pool.query(
                         sqlCommande,
                         [
                             clientId,
@@ -461,7 +671,7 @@ app.post("/api/commandes", (req, res) => {
                                 `;
 
 
-                                db.query(
+                                pool.query(
                                     sqlDetail,
                                     [
                                         commandeId,
@@ -553,7 +763,7 @@ app.get("/api/commandes", (req, res) => {
     `;
 
 
-    db.query(sql, (err, results) => {
+    pool.query(sql, (err, results) => {
 
         if (err) {
 
@@ -614,7 +824,7 @@ app.put("/api/commandes/:id/statut", (req, res) => {
     `;
 
 
-    db.query(
+    pool.query(
         sql,
         [statut, id],
         (err, result) => {
@@ -666,7 +876,7 @@ app.get("/api/commandes/:id/details", (req, res) => {
 
     `;
 
-    db.query(
+    pool.query(
         sql,
         [commandeId],
         (err, results) => {
@@ -829,13 +1039,10 @@ app.post("/api/commandes/:id/valider", async (req, res) => {
 // Démarrer le serveur
 // ==========================
 
+// Modifier le port dans server.js pour Rener
+//============================================
+const PORT = process.env.PORT || 3000;
 
-app.listen(3000, () => {
-
-
-    console.log(
-        "Serveur démarré sur http://localhost:3000"
-    );
-
-
+app.listen(PORT, () => {
+    console.log(`Serveur démarré sur le port ${PORT}`);
 });

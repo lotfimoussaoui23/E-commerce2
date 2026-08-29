@@ -11,6 +11,8 @@ let products = [];
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+const productQuantities = {};
+
 // -------------------------
 // charger les produits
 // -------------------------
@@ -19,7 +21,7 @@ async function loadProducts() {
     try {
 
         const response = await fetch(
-            "http://localhost:3000/api/produits"
+            "/api/produits"
         );
 
         if (!response.ok) {
@@ -48,41 +50,166 @@ async function loadProducts() {
 
 function displayProducts(list = products) {
 
-    const container = document.getElementById("products");
+    const container =
+        document.getElementById("products");
 
     container.innerHTML = "";
 
     list.forEach(product => {
 
-        const div = document.createElement("div");
+        // Quantité par défaut
+        if (!productQuantities[product.id]) {
+            productQuantities[product.id] = 1;
+        }
+
+        const div =
+            document.createElement("div");
 
         div.className = "product";
 
         div.innerHTML = `
-            <img src="${product.image}" alt="${product.nom}">
+
+            <img
+                src="${product.image}"
+                alt="${product.nom}">
 
             <h3>${product.nom}</h3>
 
-            <div class="price">
-                ${Number(product.prix).toLocaleString()} DA
-            </div>
+<div class="price-quantity-row">
 
-            <button class="add"
-                onclick="event.stopPropagation();
-                         addToCart(${product.id})">
+    <div class="price">
+        ${Number(product.prix).toLocaleString()} DA
+    </div>
+
+    <div
+        class="quantity-selector quantity-small"
+        onclick="event.stopPropagation()">
+
+        <button
+            type="button"
+            onclick="
+                event.stopPropagation();
+                changeProductQuantity(
+                    ${product.id},
+                    -1,
+                    ${product.stock}
+                )
+            "
+            ${productQuantities[product.id] <= 1 ? "disabled" : ""}>
+            −
+        </button>
+
+        <span id="quantity-${product.id}">
+            ${productQuantities[product.id]}
+        </span>
+
+        <button
+            type="button"
+            onclick="
+                event.stopPropagation();
+                changeProductQuantity(
+                    ${product.id},
+                    1,
+                    ${product.stock}
+                )
+            "
+            ${productQuantities[product.id] >= product.stock ? "disabled" : ""}>
+            +
+        </button>
+
+    </div>
+
+</div>
+
+
+            <button
+                class="add"
+                onclick="
+                    event.stopPropagation();
+                    addToCart(
+                        ${product.id},
+                        productQuantities[${product.id}] || 1
+                    )
+                ">
                 Ajouter au panier
             </button>
+
         `;
 
+
         div.addEventListener("click", () => {
+
             window.location.href =
-            `product.html?id=${product.id}`;
+                `product.html?id=${product.id}`;
+
         });
 
+
         container.appendChild(div);
-    }); 
-      
-                
+
+    });
+
+}
+
+//=================================
+//chager la quantité sur index.html
+//=================================
+function changeProductQuantity(
+    id,
+    change,
+    stock
+) {
+
+    if (!productQuantities[id]) {
+        productQuantities[id] = 1;
+    }
+
+    productQuantities[id] += change;
+
+    // Minimum = 1
+    if (productQuantities[id] < 1) {
+        productQuantities[id] = 1;
+    }
+
+    // Maximum = stock disponible
+    if (productQuantities[id] > stock) {
+        productQuantities[id] = stock;
+    }
+
+
+    // Mettre à jour uniquement le nombre
+    const quantityElement =
+        document.getElementById(`quantity-${id}`);
+
+    if (quantityElement) {
+
+        quantityElement.textContent =
+            productQuantities[id];
+
+    }
+
+
+    // Mettre à jour uniquement les boutons
+    const productCard =
+        quantityElement.closest(".product");
+
+    const buttons =
+        productCard.querySelectorAll(
+            ".quantity-selector button"
+        );
+
+    if (buttons.length >= 2) {
+
+        // Bouton -
+        buttons[0].disabled =
+            productQuantities[id] <= 1;
+
+        // Bouton +
+        buttons[1].disabled =
+            productQuantities[id] >= stock;
+
+    }
+
 }
 
 // afficher produit
@@ -151,7 +278,7 @@ function closeProductDetails() {
 // Ajouter au panier
 // -------------------------
 
-function addToCart(id) {
+function addToCart(id, quantity = 1) {
    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     const existing = cart.find(
@@ -160,13 +287,13 @@ function addToCart(id) {
 
     if (existing) {
 
-        existing.quantity += 1;
+        existing.quantity += quantity;
 
     } else {
 
         cart.push({
             id: Number(id),
-            quantity: 1
+            quantity: quantity
         });
 
     }

@@ -28,12 +28,12 @@
         .admin-top {
             width: 100%;
             padding-top: 25px;
-            color: #746144;
+            color: #713d3d;
             
         }
 
         header {
-            background: #e0bf8f;
+            background: #f53f3f;
             color: white;
             padding: 20px;
             display: flex;
@@ -67,7 +67,7 @@
             max-width: 1400px;
             margin: 0 auto 25px;
             padding: 0 30px 10px;
-            border-bottom: 2px solid #e0bf8f;
+            border-bottom: 2px solid #f10707;
         }
 
         .admin-menu a {
@@ -84,7 +84,7 @@
         }
 
         .admin-menu a.active {
-            background: #e0bf8f;
+            background: #ed1c24;
             color: white;
         }
 
@@ -129,7 +129,7 @@
         .admin-action-btn {
             border: none;
 
-            background: #e0bf8f;
+            background: #ed1c24;
             color: white;
 
             padding: 17px 28px;
@@ -144,7 +144,7 @@
         }
 
         .admin-action-btn:hover {
-            background: #b29871;
+            background: #c9151c;
         }
             
          /* TABLE */
@@ -219,13 +219,13 @@
         }
 
         .delete-button {
-            background: #e0bf8f;
+            background: #ed1c24;
             color: white;
             margin-left: 5px;
         }
 
         .delete-button:hover {
-            background: #b29871;
+            background: #c9151c;
         }
 
         /* MODAL */
@@ -289,7 +289,7 @@
             min-width: 220px;
             padding: 18px 25px;
             background: white;
-            border-left: 4px solid #e0bf8f;
+            border-left: 4px solid #ed1c24;
             box-shadow: 0 2px 10px rgba(0,0,0,0.06);
 
             display: flex;
@@ -341,12 +341,12 @@
         }
 
         .save-button {
-            background: #e0bf8f;
+            background: #ed1c24;
             color: white;
         }
 
         .save-button:hover {
-            background: #a88f6b;
+            background: #c9151c;
         }
 
         /* RESPONSIVE */
@@ -370,7 +370,7 @@
 </head>
 
 <header>
-    <h1>🛍️ TapisShop </h1>
+    <h1>🛍️ TechShop </h1>
 
         <nav>
             <button class="adminButton" onclick="window.location.href='index.html'">
@@ -560,15 +560,15 @@
             </label>
 
             <input
-                type="text"
+                type="file"
                 id="productImage"
-                placeholder="images/produit.png"
-                oninput="previewImage()">
+                accept="image/*"
+                onchange="previewImage()">
 
-
-            <img
-                id="imagePreview"
-                class="image-preview">
+<img
+    id="imagePreview"
+    class="image-preview"
+    style="display: none;">
 
         </div>
 
@@ -862,67 +862,73 @@ function editProduct(id) {
             p => Number(p.id) === Number(id)
         );
 
-
     if (!product) {
 
         alert("Produit introuvable.");
-
         return;
     }
-
 
     document.getElementById(
         "modalTitle"
     ).textContent =
         "Modifier le produit";
 
-
     document.getElementById(
         "productId"
     ).value =
         product.id;
-
 
     document.getElementById(
         "productName"
     ).value =
         product.nom || "";
 
-
     document.getElementById(
         "productDescription"
     ).value =
         product.description || "";
-
 
     document.getElementById(
         "productPrice"
     ).value =
         product.prix || 0;
 
-
+    // On ne peut pas remplir automatiquement
+    // un champ type="file"
     document.getElementById(
         "productImage"
-    ).value =
-        product.image || "";
-
+    ).value = "";
 
     document.getElementById(
         "productStock"
     ).value =
         product.stock || 0;
 
+    // Afficher l'image actuelle
+    const preview =
+        document.getElementById(
+            "imagePreview"
+        );
 
-    previewImage();
+    if (product.image) {
 
+        preview.src =
+            product.image;
+
+        preview.style.display =
+            "block";
+
+    } else {
+
+        preview.style.display =
+            "none";
+    }
 
     document.getElementById(
         "productModal"
     ).style.display =
         "flex";
-
 }
-
 
 
 // ========================================
@@ -931,41 +937,30 @@ function editProduct(id) {
 
 function previewImage() {
 
-    const image =
-        document.getElementById(
-            "imagePreview"
-        );
+    const input =
+        document.getElementById("productImage");
 
+    const preview =
+        document.getElementById("imagePreview");
 
-    const url =
-        document.getElementById(
-            "productImage"
-        ).value.trim();
+    const file = input.files[0];
 
+    if (!file) {
 
-    if (!url) {
-
-        image.style.display =
-            "none";
+        preview.style.display = "none";
 
         return;
-
     }
 
+    preview.src =
+        URL.createObjectURL(file);
 
-    image.src = url;
-
-    image.style.display =
-        "block";
-
+    preview.style.display = "block";
 }
-
-
 
 // ========================================
 // ENREGISTRER
 // ========================================
-
 async function saveProduct() {
 
     const id =
@@ -974,54 +969,57 @@ async function saveProduct() {
         ).value;
 
 
-    const product = {
+    const nom =
+        document.getElementById(
+            "productName"
+        ).value.trim();
 
-        nom:
+
+    const description =
+        document.getElementById(
+            "productDescription"
+        ).value.trim();
+
+
+    const prix =
+        Number(
             document.getElementById(
-                "productName"
-            ).value.trim(),
+                "productPrice"
+            ).value
+        );
 
-        description:
+
+    const stock =
+        Number(
             document.getElementById(
-                "productDescription"
-            ).value.trim(),
-
-        prix:
-            Number(
-                document.getElementById(
-                    "productPrice"
-                ).value
-            ),
-
-        image:
-            document.getElementById(
-                "productImage"
-            ).value.trim(),
-
-        stock:
-            Number(
-                document.getElementById(
-                    "productStock"
-                ).value
-            )
-
-    };
+                "productStock"
+            ).value
+        );
 
 
-    if (!product.nom) {
+    const imageInput =
+        document.getElementById(
+            "productImage"
+        );
+
+
+    // =========================
+    // VALIDATION
+    // =========================
+
+    if (!nom) {
 
         alert(
             "Veuillez saisir le nom du produit."
         );
 
         return;
-
     }
 
 
     if (
-        !Number.isFinite(product.prix) ||
-        product.prix < 0
+        !Number.isFinite(prix) ||
+        prix < 0
     ) {
 
         alert(
@@ -1029,13 +1027,12 @@ async function saveProduct() {
         );
 
         return;
-
     }
 
 
     if (
-        !Number.isFinite(product.stock) ||
-        product.stock < 0
+        !Number.isFinite(stock) ||
+        stock < 0
     ) {
 
         alert(
@@ -1043,6 +1040,53 @@ async function saveProduct() {
         );
 
         return;
+    }
+
+
+    // =========================
+    // FORMDATA
+    // =========================
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        "nom",
+        nom
+    );
+
+
+    formData.append(
+        "description",
+        description
+    );
+
+
+    formData.append(
+        "prix",
+        prix
+    );
+
+
+    formData.append(
+        "stock",
+        stock
+    );
+
+
+    // Ajouter l'image uniquement
+    // si une image est sélectionnée
+
+    if (
+        imageInput.files &&
+        imageInput.files[0]
+    ) {
+
+        formData.append(
+            "image",
+            imageInput.files[0]
+        );
 
     }
 
@@ -1052,7 +1096,9 @@ async function saveProduct() {
         let response;
 
 
+        // =========================
         // MODIFIER
+        // =========================
 
         if (id) {
 
@@ -1063,13 +1109,8 @@ async function saveProduct() {
 
                         method: "PUT",
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
                         body:
-                            JSON.stringify(product)
+                            formData
 
                     }
                 );
@@ -1077,7 +1118,9 @@ async function saveProduct() {
         }
 
 
+        // =========================
         // AJOUTER
+        // =========================
 
         else {
 
@@ -1088,13 +1131,8 @@ async function saveProduct() {
 
                         method: "POST",
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
                         body:
-                            JSON.stringify(product)
+                            formData
 
                     }
                 );
@@ -1141,7 +1179,6 @@ async function saveProduct() {
     }
 
 }
-
 
 
 // ========================================

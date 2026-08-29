@@ -128,14 +128,17 @@ app.get("/api/produits", (req, res) => {
 // uploader les image sur GitHub
 async function uploadImageToGitHub(file) {
 
-    const repo =
-        process.env.GITHUB_REPO;
+    const repo = process.env.GITHUB_REPO;
 
-    const branch =
-        process.env.GITHUB_BRANCH || "main";
+    const branch = process.env.GITHUB_BRANCH || "main";
 
-    const token =
-        process.env.GITHUB_TOKEN;
+    const token =  process.env.GITHUB_TOKEN;
+
+    console.log("========== GITHUB CONFIG ==========");
+    console.log("GITHUB REPO :", repo);
+    console.log("GITHUB BRANCH :", branch);
+    console.log("GITHUB TOKEN PRESENT :", !!token);
+    console.log("==================================");
 
     const filePath =
         `images/${file.filename}`;

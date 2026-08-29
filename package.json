@@ -1,8 +1,8 @@
 {
-  "name": "e-commerce1",
+  "name": "e-commerce2",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -12,6 +12,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "axios": "^1.11.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "multer": "^2.2.0",

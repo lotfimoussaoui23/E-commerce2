@@ -11,7 +11,7 @@ body {
 }
 
 header {
-    background: #e0bf8f;
+    background: #f53f3f;
     color: white;
     padding: 20px;
     display: flex;
@@ -78,12 +78,14 @@ main {
 
 .product h3 {
     margin: 10px 0;
+    margin-bottom: 4px;
 }
 
 .price {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     margin: 10px 0;
+    white-space: nowrap;
 }
 
 .add {
@@ -97,9 +99,39 @@ main {
 }
 
 .add:hover {
-    background: #5e7662;
-    color: greenyellow;
+    background: #f53f3f;
+    color: white;
     font-weight: bold;
+}
+
+/*quantité dans index*/
+
+.price-quantity-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    margin-top: 0;
+    flex-wrap: nowrap;
+}
+
+.quantity-small {
+    margin: 0;
+    flex-shrink: 0;
+    transform: scale(0.7);
+    transform-origin: right center;
+}
+
+.quantity-small button {
+    width: 26px;
+    height: 26px;
+    font-size: 14px;
+}
+
+.quantity-small span {
+    width: 20px;
+    font-size: 13px;
 }
 
 /* Panier */
@@ -318,7 +350,7 @@ main {
 
 .productSeller span {
 
-    color: #e0bf8f;
+    color: #ed1c24;
 
     font-weight: bold;
 
@@ -333,7 +365,7 @@ main {
 
     margin-bottom: 80px;
 
-    color: #e0bf8f;
+    color: #ed1c24;
 
     font-weight: bold;
 
@@ -353,7 +385,7 @@ main {
 
 .productAddButton {
 
-    background: #e0bf8f;
+    background: #ed1c24;
 
     color: white;
 
@@ -376,7 +408,7 @@ main {
 
 .productAddButton:hover {
 
-    background: #b4986f;
+    background: #c9151c;
 
     transform: translateY(-2px);
 
@@ -435,6 +467,62 @@ main {
 
 }
 
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+    width: fit-content;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+
+    background: white;
+}
+
+.quantity-selector button {
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    background: #f5f5f5;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.quantity-selector button:hover {
+    background: #ed1c24;
+    color: white;
+}
+
+.quantity-selector span {
+    width: 50px;
+
+    text-align: center;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    color: #222;
+}
+
+.quantity-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.quantity-label {
+    font-size: 17px;
+    font-weight: bold;
+}
 
 /* HEADER */
 
@@ -553,7 +641,7 @@ header {
 
 .cartProduct h3 {
 
-    color: #e0bf8f;
+    color: #ed1c24;
 
     font-size: 17px;
 
@@ -672,7 +760,7 @@ header {
 
 .customerForm {
 
-    border-left: 6px solid #e0bf8f;
+    border-left: 6px solid #ed1c24;
 
     padding-left: 25px;
 
@@ -746,7 +834,7 @@ header {
 
     border: none;
 
-    background: #e0bf8f;
+    background: #ed1c24;
 
     color: white;
 
@@ -761,7 +849,7 @@ header {
 
 .orderButton:hover {
 
-    background: #b89d75;
+    background: #c9151c;
 
 }
 
@@ -1061,7 +1149,7 @@ header {
 
 .total-ventes strong {
 
-    color: brown;
+    color: red;
 
     font-size: 36px;
 

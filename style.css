@@ -14,7 +14,9 @@ header {
     background-image: url("images/1788097791426-28954844.jpg");
     background-size: cover;
     background-position: center;
-    color: white;
+    color: rgb(181, 165, 20);
+    min-height: 180px;
+    padding: 30px 40px;
 }
 
 header button {

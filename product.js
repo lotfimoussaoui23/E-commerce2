@@ -1,4 +1,4 @@
-const params = new URLSearchParams(const params = new URLSearchParams(
+const params = new URLSearchParams(
     window.location.search
 );
 

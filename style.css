@@ -14,7 +14,8 @@ header {
     background-image: url("images/1788097791426-28954844.jpg");
     background-size: cover;
     background-position: center;
-    color: rgb(181, 165, 20);
+    color: rgb(114, 105, 16);
+    font-size: 18px;
     min-height: 120px;
     padding: 30px 40px;
 }
@@ -30,7 +31,7 @@ header button {
 .adminButton {
     background: transparent;
     border: none;
-    color: #ffffff;
+    color: #1427f3;
     cursor: pointer;
     font-size: 20px;
 }
@@ -99,7 +100,7 @@ main {
 }
 
 .add:hover {
-    background: #f53f3f;
+    background: #ad7f01;
     color: white;
     font-weight: bold;
 }

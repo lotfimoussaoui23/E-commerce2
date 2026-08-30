@@ -11,14 +11,10 @@ body {
 }
 
 header {
-    background: 
-    repeating-linear-gradient(
-            -45deg,
-            #1e293b 0px,
-            #1e293b 12px,
-            #334155 12px,
-            #334155 24px
-        );
+    background-image: url("images/1788097541200-52699177.jpg");
+    background-size: cover;
+    background-position: center;
+    color: white;
 }
 
 header button {

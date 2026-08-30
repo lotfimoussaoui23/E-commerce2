@@ -1,9 +1,11 @@
-const params = new URLSearchParams(
+const params = new URLSearchParams(const params = new URLSearchParams(
     window.location.search
 );
 
 const productId = params.get("id");
 
+let selectedQuantity = 1;
+let currentStock = 0;
 
 async function loadProduct() {
 
@@ -41,6 +43,9 @@ async function loadProduct() {
 
 
 function displayProduct(product) {
+
+    selectedQuantity = 1;
+    currentStock = Number(product.stock) || 0;
 
     document.getElementById("productPage").innerHTML = `
 
@@ -89,16 +94,35 @@ function displayProduct(product) {
                 </div>
 
 
-                <button
-                    class="productAddButton"
-                    onclick="addProductToCart(${product.id})">
-
-                    AJOUTER AU PANIER
-
-                </button>
+                <!-- QUANTITÉ -->
 
 
-                <div class="productDetailPrice">
+
+    <div class="quantity-selector">
+
+        <button type="button" onclick="changeQuantity(-1)">
+            −
+        </button>
+
+        <span id="quantity">1</span>
+
+        <button type="button" onclick="changeQuantity(1)">
+            +
+        </button>
+
+</div>
+
+<button
+    class="productAddButton"
+    onclick="addProductToCart(${product.id})">
+
+    AJOUTER AU PANIER
+
+</button>
+
+                <div class="productDetailPrice"
+                id="productTotalPrice"
+                data-price="${product.prix}">
 
                     ${Number(product.prix).toLocaleString()} DA
 
@@ -129,7 +153,9 @@ function displayProduct(product) {
         </div>
 
     `;
+    
 
+    
     // 🔍 ZOOM DE L'IMAGE
 
     const box = document.querySelector(".productDetailImage");
@@ -159,7 +185,53 @@ function displayProduct(product) {
     });
 
 }
+//==================
+//update total price
+//==================
+function updateProductPrice() {
 
+    const priceElement =
+        document.getElementById("productTotalPrice");
+
+    if (!priceElement) return;
+
+    const unitPrice =
+        Number(priceElement.dataset.price);
+
+    const totalPrice =
+        unitPrice * selectedQuantity;
+
+    priceElement.textContent =
+        totalPrice.toLocaleString("fr-FR") + " DA";
+}
+
+//==================
+//change quantity
+//==================
+function changeQuantity(change) {
+
+    selectedQuantity += change;
+
+    if (selectedQuantity < 1) {
+        selectedQuantity = 1;
+    }
+
+    if (
+        currentStock > 0 &&
+        selectedQuantity > currentStock
+    ) {
+        selectedQuantity = currentStock;
+    }
+
+    const quantityElement =
+        document.getElementById("quantity");
+
+    if (quantityElement) {
+        quantityElement.textContent =
+            selectedQuantity;
+        updateProductPrice();
+    }
+}
 
 function addProductToCart(id) {
 
@@ -167,8 +239,14 @@ function addProductToCart(id) {
        On utilise la fonction addToCart()
        déjà présente dans script.js
     */
+    if (currentStock <= 0) {
 
-    addToCart(id);
+        alert("Ce produit est en rupture de stock.");
+
+        return;
+    }
+
+    addToCart(id, selectedQuantity);
 
 }
 

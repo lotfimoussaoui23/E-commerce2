@@ -70,7 +70,7 @@ function displayProducts(list = products) {
         div.innerHTML = `
 
             <img
-                src="/${product.image}"
+                src="${product.image}"
                 alt="${product.nom}">
 
             <h3>${product.nom}</h3>

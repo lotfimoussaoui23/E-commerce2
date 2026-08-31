@@ -172,7 +172,7 @@ async function uploadImageToGitHub(file) {
             }
         );
 
-    return response.data.content.download_url;
+    return `https://raw.githubusercontent.com/${repo}/${branch}/${filePath}`;// URL permanente de l'image
 }
 
 //===========================

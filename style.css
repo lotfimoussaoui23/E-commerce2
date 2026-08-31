@@ -101,7 +101,7 @@ main {
 }
 
 .add:hover {
-    background: #ad7f01;
+    background: red;
     color: white;
     font-weight: bold;
 }

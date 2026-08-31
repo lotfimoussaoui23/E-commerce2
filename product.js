@@ -57,7 +57,7 @@ function displayProduct(product) {
             <div class="productDetailImage">
 
                 <img
-                    src="${product.image}"
+                    src="${product.image.startsWith('http') ? product.image : '/' + product.image}"
                     alt="${product.nom}"
                 >
 

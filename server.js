@@ -55,9 +55,7 @@ app.use(express.static(__dirname));
 // Permet d'accéder aux images uploadées
 app.use(
     "/images",
-    express.static(
-        path.join(__dirname, "images")
-    )
+    express.static(imageDir)
 );
 
 

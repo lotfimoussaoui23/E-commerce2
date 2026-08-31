@@ -70,8 +70,8 @@ function displayProducts(list = products) {
         div.innerHTML = `
 
             <img
-                src="${product.image}"
-                alt="${product.nom}">
+                src="${product.image.startsWith('http') ? product.image : '/' + product.image}"
+                alt="${product.nom}"
 
             <h3>${product.nom}</h3>
 
@@ -233,8 +233,8 @@ function showProductDetails(id) {
             </button>
 
             <img
-                src="${product.image}"
-                alt="${product.nom}">
+                src="${product.image.startsWith('http') ? product.image : '/' + product.image}"
+                alt="${product.nom}"
 
             <h2>${product.nom}</h2>
 

@@ -11,14 +11,44 @@ body {
 }
 
 header {
-    background-image: linear-gradient(rgba(60, 45, 30, 0.25), rgba(60, 45, 30, 0.15)),
-                                            url("images/1788097791426-28954844.jpg");
+    height: 90px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 40px;
+
+    background-image:
+        linear-gradient(
+            rgba(60, 45, 30, 0.30),
+            rgba(60, 45, 30, 0.20)
+        ),
+        url("images/1788097791426-28954844.jpg");
+
     background-size: cover;
     background-position: center;
-    color: rgb(114, 105, 16);
-    font-size: 18px;
-    min-height: 120px;
-    padding: 30px 40px;
+
+    color: #fff;
+
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.12);
+}
+
+header h1 {
+    margin: 0;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+    color: #fff;
+
+    text-shadow:
+        0 2px 4px rgba(0,0,0,0.35);
 }
 
 header button {

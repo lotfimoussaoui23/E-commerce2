@@ -138,7 +138,7 @@ main {
 }
 
 .add:hover {
-    background: brown;
+    background: #ed1c24;
     color: white;
     font-weight: bold;
 }

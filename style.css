@@ -112,10 +112,10 @@ main {
 
 /* NOM DU PRODUIT */
 .product h3 {
-    margin: 0;
+    margin-bottom: -3px;
     font-size: 17px;
     font-weight: 600;
-    line-height: -3px;
+    line-height: 1px;
     color: #222;
     white-space: nowrap;
     overflow: hidden;
@@ -129,6 +129,7 @@ main {
     align-items: center;
     gap: 5px;
     margin-top: 0;
+    margin-bottom: -2px;
     padding: 0;
     flex-wrap: nowrap;
 }
@@ -156,7 +157,7 @@ main {
     border: none;
     border-radius: 5px;
     background: #ed1c24;
-    color: dark-grey;
+    color: grey;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
@@ -175,7 +176,7 @@ main {
 .add {
     width: 100%;
     padding: 11px;
-    margin-top: 4px;
+    margin-top: -2px;
     background: #222;
     color: white;
     border: none;

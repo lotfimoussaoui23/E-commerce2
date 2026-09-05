@@ -12,43 +12,25 @@ body {
 
 header {
     height: 90px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 40px;
-
-    background-image:
-        linear-gradient(
-            rgba(60, 45, 30, 0.30),
-            rgba(60, 45, 30, 0.20)
-        ),
-        url("images/1788097791426-28954844.jpg");
-
+    background-image: linear-gradient(rgba(60, 45, 30, 0.30),rgba(60, 45, 30, 0.20)),url("images/1788097791426-28954844.jpg");
     background-size: cover;
     background-position: center;
-
     color: #fff;
-
     border-bottom: 1px solid rgba(255,255,255,0.3);
-
-    box-shadow:
-        0 3px 12px rgba(0,0,0,0.12);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
 }
 
 header h1 {
     margin: 0;
-
     font-size: 30px;
     font-weight: 700;
-
     letter-spacing: 0.5px;
-
     color: #fff;
-
-    text-shadow:
-        0 2px 4px rgba(0,0,0,0.35);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.35);
 }
 
 header button {
@@ -99,13 +81,9 @@ main {
     background: #ffffff;
     border-radius: 14px;
     padding: 14px;
-
     border: 1px solid #eeeeee;
-
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-
     cursor: pointer;
-
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
@@ -114,11 +92,8 @@ main {
 
 .product:hover {
     transform: translateY(-4px);
-
     background-color: #fffdf5;
-
-    box-shadow:
-        0 8px 22px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
 }
 
 /* IMAGE DU PRODUIT */
@@ -127,7 +102,7 @@ main {
     height: 220px;
     object-fit: hover;
     display: block;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
     transition: transform 0.2s ease;
 }
 
@@ -140,7 +115,7 @@ main {
     margin: 0;
     font-size: 17px;
     font-weight: 600;
-    line-height: 1.2;
+    line-height: 1px;
     color: #222;
     white-space: nowrap;
     overflow: hidden;
@@ -153,7 +128,7 @@ main {
     justify-content: space-between;
     align-items: center;
     gap: 5px;
-    margin: 0;
+    margin-top: 0;
     padding: 0;
     flex-wrap: nowrap;
 }
@@ -162,11 +137,8 @@ main {
 .price {
     font-size: 18px;
     font-weight: 700;
-
     margin: 0;
-
     white-space: nowrap;
-
     color: #222;
 }
 
@@ -181,16 +153,12 @@ main {
 .quantity-small button {
     width: 26px;
     height: 26px;
-
     border: none;
     border-radius: 5px;
-
     background: #ed1c24;
     color: white;
-
     font-size: 14px;
     font-weight: bold;
-
     cursor: pointer;
 }
 
@@ -206,22 +174,15 @@ main {
 /* BOUTON ajouter au panier */
 .add {
     width: 100%;
-
     padding: 11px;
-
     margin-top: 4px;
-
     background: #222;
     color: white;
-
     border: none;
     border-radius: 7px;
-
     cursor: pointer;
-
     font-size: 14px;
     font-weight: 600;
-
     transition: background 0.2s ease;
 }
 
@@ -285,30 +246,20 @@ main {
 
 .productDetails {
     display: none;
-
     position: fixed;
     inset: 0;
-
     background: rgba(0, 0, 0, 0.6);
-
     z-index: 1000;
-
     padding: 30px;
 }
 
 .detailsContent {
     position: relative;
-
     background: rgb(242, 243, 240);
-
     max-width: 600px;
-
     margin: 50px auto;
-
     padding: 30px;
-
     border-radius: 12px;
-
     text-align: center;
 }
 
@@ -316,41 +267,33 @@ main {
     width: 100%;
     max-width: 400px;
     height: 250px;
-    
     object-fit: contain;
 }
 
 .closeDetails {
     position: absolute;
-
     right: 15px;
     top: 15px;
-
     border: none;
     background: none;
-
     font-size: 25px;
-
     cursor: pointer;
 }
 
 .detailsPrice {
     font-size: 24px;
     font-weight: bold;
-
     margin: 15px;
 }
 
 .detailsButton {
     margin-top: 20px;
     width: 200px;
-    
 }
 
 .cart-active {
     background-color: #62d442 !important;
     color: white;
-    
 }
 
 /*////////////////////////////////////////////////////////////////
@@ -359,13 +302,9 @@ main {
    ================================= */
 
 .productDetailPage {
-
     display: grid;
-
     grid-template-columns: 50% 50%;
-
     align-items: TOP;
-
 }
 
 /* IMAGE */
@@ -377,11 +316,8 @@ main {
     justify-content: center;
     align-items: left;
     margin-left: -15%;
-
     background-color: rgb(255, 255, 255);
-
     overflow: hidden; /* empêche l'image de sortir */
-
     cursor: zoom-in;
 }
 
@@ -392,9 +328,7 @@ main {
 .productDetailImage img {
     width: 90%;
     height: 90%;
-
     object-fit: contain;
-
     transition: transform 0.4s ease;
 }
 
@@ -402,122 +336,81 @@ main {
 /* INFORMATIONS */
 
 .productDetailInfo {
-
     padding: 10px 10px;
-
 }
 
 
 .productDetailInfo h1 {
-
     font-size: 48px;
-
     line-height: 1.15;
-
     margin-bottom: 10px;
-
     color: #222;
-
 }
 
 
 /* VENDEUR */
 
 .productSeller {
-
     font-size: 17px;
-
 }
 
 
 .productSeller span {
-
     color: #ed1c24;
-
     font-weight: bold;
-
 }
 
 
 /* FIL D'ARIANE */
 
 .productBreadcrumb {
-
     margin-top: 20px;
-
     margin-bottom: 80px;
-
     color: #ed1c24;
-
     font-weight: bold;
-
 }
 
 
 .productBreadcrumb span {
-
     color: #aaa;
-
     margin: 0 8px;
-
 }
 
 
 /* BOUTON */
 
 .productAddButton {
-
     background: #ed1c24;
-
     color: white;
-
     border: none;
-
     padding: 15px 32px;
-
     font-size: 19px;
-
     font-weight: bold;
-
     cursor: pointer;
-
     border-radius: 3px;
-
     transition: 0.2s;
-
 }
 
-
 .productAddButton:hover {
-
     background: #c9151c;
-
     transform: translateY(-2px);
-
 }
 
 
 /* PRIX */
 
 .productDetailPrice {
-
     margin-top: 30px;
-
     font-size: 34px;
-
     font-weight: bold;
-
 }
 
 
 /* DESCRIPTION */
 
 .productDescription {
-
     margin-top: 45px;
-
     max-width: 600px;
-
 }
 
 
@@ -529,24 +422,17 @@ main {
 
 
 .productDescription p {
-
     font-size: 17px;
-
     line-height: 1.6;
-
     color: #555;
-
 }
 
 
 /* STOCK */
 
 .productStock {
-
     margin-top: 25px;
-
     font-size: 16px;
-
 }
 
 .quantity-selector {
@@ -555,26 +441,20 @@ main {
     gap: 0;
     margin: 20px 0;
     width: fit-content;
-
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
-
     background: white;
 }
 
 .quantity-selector button {
     width: 42px;
     height: 42px;
-
     border: none;
     background: #f5f5f5;
-
     font-size: 22px;
     font-weight: bold;
-
     cursor: pointer;
-
     transition: 0.2s;
 }
 
@@ -585,12 +465,9 @@ main {
 
 .quantity-selector span {
     width: 50px;
-
     text-align: center;
-
     font-size: 18px;
     font-weight: bold;
-
     color: #222;
 }
 
@@ -609,19 +486,12 @@ main {
 /* HEADER */
 
 header {
-
     height: 70px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     padding: 0 40px;
-
     border-bottom: 1px solid #eee;
-
 }
 
 /* =====================================
@@ -629,19 +499,12 @@ header {
 ===================================== */
 
 .cartPage {
-
     max-width: 1500px;
-
     margin: 0 auto;
-
     padding: 35px 30px;
-
     display: grid;
-
     grid-template-columns: 53% 47%;
-
     gap: 30px;
-
 }
 
 
@@ -650,19 +513,14 @@ header {
 ===================================== */
 
 .cartProducts {
-
     padding-right: 30px;
-
 }
 
 
 .cartProducts h1,
 .customerForm h1 {
-
     font-size: 20px;
-
     margin-bottom: 25px;
-
 }
 
 
@@ -689,24 +547,16 @@ header {
 /* produit + image */
 
 .cartProduct {
-
     display: flex;
-
     align-items: center;
-
     gap: 20px;
-
 }
 
 
 .cartProduct img {
-
     width: 90px;
-
     height: 90px;
-
     object-fit: contain;
-
 }
 
 .cartImage {
@@ -722,77 +572,53 @@ header {
 }
 
 .cartProduct h3 {
-
     color: #ed1c24;
-
     font-size: 17px;
-
 }
 
 
 .cartProduct p {
-
     margin-top: 4px;
-
     color: #555;
-
 }
 
 
 /* prix */
 
 .cartPrice {
-
     font-size: 16px;
-
 }
 
 
 /* quantité */
 
 .cartQuantity {
-
     display: flex;
-
     align-items: center;
-
     gap: 8px;
-
 }
 
 
 .cartQuantity button {
-
     width: 30px;
-
     height: 30px;
-
     border: 1px solid #ccc;
-
     background: white;
-
     cursor: pointer;
-
     font-size: 18px;
-
 }
 
 
 .cartQuantity span {
-
     min-width: 25px;
-
     text-align: center;
-
 }
 
 
 /* total produit */
 
 .cartProductTotal {
-
     font-size: 16px;
-
 }
 
 
@@ -800,39 +626,26 @@ header {
 
 .deleteProduct {
     position: static;
-
     border: none;
-
     background: transparent;
-
     cursor: pointer;
-
     font-size: 18px;
 }
 
 /* TOTAL */
 
 .cartTotal {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     max-width: 500px;
-
     margin: 40px auto 0;
-
     font-size: 20px;
-
 }
 
 
 .cartTotal strong {
-
     font-size: 28px;
-
 }
 
 
@@ -841,43 +654,29 @@ header {
 ===================================== */
 
 .customerForm {
-
     border-left: 6px solid #ed1c24;
-
     padding-left: 25px;
-
 }
 
 
 .formRow {
-
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 14px;
-
     margin-bottom: 18px;
-
 }
 
 
 .formGroup {
-
     margin-bottom: 18px;
-
 }
 
 
 .formRow label,
 .formGroup label {
-
     display: block;
-
     font-weight: bold;
-
     margin-bottom: 8px;
-
 }
 
 
@@ -885,54 +684,33 @@ header {
 .formRow select,
 .formGroup input,
 .formGroup textarea {
-
     width: 100%;
-
     box-sizing: border-box;
-
     padding: 13px;
-
     border: 1px solid #ccc;
-
     font-size: 16px;
-
 }
 
-
 .formGroup textarea {
-
     resize: vertical;
-
 }
 
 
 /* bouton */
 
 .orderButton {
-
     width: 100%;
-
     padding: 17px;
-
     border: none;
-
     background: #ed1c24;
-
     color: white;
-
     font-size: 18px;
-
     font-weight: bold;
-
     cursor: pointer;
-
 }
 
-
 .orderButton:hover {
-
     background: #c9151c;
-
 }
 
 /* ========================================
@@ -940,24 +718,16 @@ header {
 ======================================== */
 
 .historique-container {
-
     width: 95%;
-
     max-width: 1600px;
-
     margin: 40px auto;
-
     padding: 25px;
-
 }
 
 
 .historique-container h2 {
-
     font-size: 30px;
-
     margin-bottom: 30px;
-
 }
 
 
@@ -967,65 +737,41 @@ header {
 ======================================== */
 
 .filtre-periode {
-
     display: flex;
-
     align-items: end;
-
     gap: 20px;
-
     flex-wrap: wrap;
-
     margin-bottom: 30px;
-
 }
 
 
 .filtre-periode div {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 8px;
-
 }
 
 
 .filtre-periode label {
-
     font-size: 16px;
-
     font-weight: 600;
-
 }
 
 
 .filtre-periode input {
-
     padding: 12px 15px;
-
     font-size: 16px;
-
     border: 1px solid #ccc;
-
     border-radius: 8px;
-
 }
 
 
 .filtre-periode button {
-
     padding: 12px 20px;
-
     border: none;
-
     border-radius: 8px;
-
     cursor: pointer;
-
     font-size: 15px;
-
 }
 
 
@@ -1035,37 +781,21 @@ header {
 ======================================== */
 
 .table-container {
-
     width: 100%;
-
     background: white;
-
     border-radius: 15px;
-
-    box-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.12);
-
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
     padding: 0;
-
     overflow-x: auto;
-
     margin-top: 25px;
-
 }
 
-
 .table-container table {
-
     width: 100%;
-
     min-width: 1000px;
-
     border-collapse: collapse;
-
     background: white;
-
     font-size: 18px;
-
 }
 
 
@@ -1075,23 +805,14 @@ header {
 ======================================== */
 
 .table-container th {
-
     background: #f3f4f6;
-
     color: #222;
-
     font-size: 18px;
-
     font-weight: 700;
-
     padding: 22px 25px;
-
     text-align: left;
-
     border-bottom: 2px solid #ddd;
-
     height: 65px;
-
 }
 
 
@@ -1101,34 +822,20 @@ header {
 ======================================== */
 
 .table-container tbody tr {
-
     height: 80px;
-
     background: white;
-
 }
-
 
 .table-container tbody tr:hover {
-
     background: #f8f9fa;
-
 }
-
 
 .table-container td {
-
     padding: 25px;
-
     height: 80px;
-
     border-bottom: 1px solid #e5e5e5;
-
     vertical-align: middle;
-
 }
-
-
 
 /* ========================================
    LARGEUR DES COLONNES
@@ -1136,105 +843,62 @@ header {
 
 .table-container th:nth-child(1),
 .table-container td:nth-child(1) {
-
     width: 25%;
-
 }
-
 
 .table-container th:nth-child(2),
 .table-container td:nth-child(2) {
-
     width: 40%;
-
 }
-
 
 .table-container th:nth-child(3),
 .table-container td:nth-child(3) {
-
     width: 15%;
-
     text-align: center;
-
 }
-
 
 .table-container th:nth-child(4),
 .table-container td:nth-child(4) {
-
     width: 20%;
-
     text-align: right;
-
 }
-
-
 
 /* ========================================
    QUANTITÉ
 ======================================== */
 
 .table-container .quantite {
-
     text-align: center;
-
     font-weight: 600;
-
 }
-
-
 
 /* ========================================
    TOTAL PRODUIT
 ======================================== */
-
 .table-container .prix {
-
     text-align: right;
-
     font-weight: 700;
-
 }
-
-
 
 /* ========================================
    TOTAL GÉNÉRAL
 ======================================== */
 
 .total-ventes {
-
     width: 100%;
-
     box-sizing: border-box;
-
     margin-top: 25px;
-
     padding: 25px 35px;
-
     background: white;
-
     border-radius: 15px;
-
-    box-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.12);
-
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
     text-align: right;
-
     font-size: 28px;
-
     font-weight: 600;
-
 }
 
-
 .total-ventes strong {
-
     color: red;
-
     font-size: 36px;
-
     margin-left: 15px;
-
 }

@@ -137,15 +137,11 @@ main {
 
 /* NOM DU PRODUIT */
 .product h3 {
-    margin: 2px 0 3px;
-
+    margin: 0;
     font-size: 17px;
     font-weight: 600;
-
     line-height: 1.2;
-
     color: #222;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

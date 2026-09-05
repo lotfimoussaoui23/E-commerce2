@@ -124,8 +124,8 @@ main {
 /* IMAGE DU PRODUIT */
 .product img {
     width: 100%;
-    height: 280px;
-    object-fit: contain;
+    height: 220px;
+    object-fit: hover;
     display: block;
     margin-bottom: 2px;
     transition: transform 0.2s ease;
